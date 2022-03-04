@@ -6,9 +6,6 @@ PersonProfile::PersonProfile(string name, string email)
 {
 	m_name = name;
 	m_email = email;
-	m_tree = RadixTree<set<string>>();
-	m_numPairs = 0;
-	m_pairs = vector<AttValPair>();
 }
 
 void PersonProfile::AddAttValPair(const AttValPair& attval)

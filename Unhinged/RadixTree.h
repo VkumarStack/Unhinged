@@ -11,25 +11,24 @@ class RadixTree
 		RadixTree();
 		~RadixTree();
 		void insert(std::string key, const ValueType& value);
-		ValueType* search(std::string key); //const;
+		ValueType* search(std::string key) const;
 	private:
 		struct Node
 		{
 			ValueType value;
 			std::string str;
 			bool end;
-			Node* children[26] = { 0 };
+			Node* children[129] = { 0 };
 		};
 		Node* root; 
 		void insert(Node* node, Node* parent, std::string key, const ValueType& value);
 		ValueType* search(Node* node, std::string key) const;
-		//std::map<std::string, ValueType> radixTree;
+		void deleteTree(Node* node);
 };
 
 template <typename ValueType>
 RadixTree<ValueType>::RadixTree()
 {
-	//radixTree = std::map<std::string, ValueType > ();
 	Node* rt = new Node();
 	rt->str = "";
 	rt->end = false;
@@ -40,40 +39,31 @@ RadixTree<ValueType>::RadixTree()
 template <typename ValueType>
 RadixTree<ValueType>::~RadixTree()
 {
-	
+	deleteTree(root);
 }
 
 template <typename ValueType>
 void RadixTree<ValueType>::insert(std::string key, const ValueType& value)
 {
-	//radixTree.insert_or_assign(key, value);
 	if (key != "")
 	{
-		if (root->children[key.at(0) - 'a'] == nullptr)
+		if (root->children[key.at(0)] == nullptr)
 		{
 			Node* ins = new Node();
 			ins->str = key;
 			ins->value = value;
 			ins->end = true;
 
-			root->children[key.at(0) - 'a'] = ins;
+			root->children[key.at(0)] = ins;
 		}
 		else
-			insert(root->children[key.at(0) - 'a'], root, key, value);
+			insert(root->children[key.at(0)], root, key, value);
 	}
 }
 
 template <typename ValueType>
-ValueType* RadixTree<ValueType>::search(std::string key) // const
+ValueType* RadixTree<ValueType>::search(std::string key) const
 {
-	/*typename std::map<std::string, ValueType>::iterator it;
-	it = radixTree.find(key);
-	if (it == radixTree.end())
-		return nullptr;
-
-	ValueType* ret = &(it->second);
-	return ret;
-	*/
 	return search(root, key);
 }
 
@@ -98,7 +88,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 	{
 		std::string str = key.substr(i);
 		// If the appropriate letter pointer is empty, then create a new node 
-		if (node->children[str.at(0) - 'a'] == nullptr)
+		if (node->children[str.at(0)] == nullptr)
 		{
 			Node* ins = new Node();
 			ins->value = value;
@@ -107,7 +97,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 			return;
 		}
 		else // Otherwise, traverse further
-			return insert(node->children[str.at(0) - 'a'], node, str, value);
+			return insert(node->children[str.at(0)], node, str, value);
 	}
 	else if (i < node->str.size() && i == key.size()) // Case #3: Both strings have equivalent prefixes but the current node is longer than the key
 	{
@@ -117,8 +107,8 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		ins->str = key; 
 		ins->value = value;
 		ins->end = true;
-		ins->children[node->str.at(0) - 'a'] = node;
-		parent->children[ins->str.at(0) - 'a'] = ins;
+		ins->children[node->str.at(0)] = node;
+		parent->children[ins->str.at(0)] = ins;
 		return;
 	}
 	else if (i < node->str.size() && i < key.size()) // Case #4: Both strings do not have equivalent prefixes
@@ -128,14 +118,14 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		// Create new node with shared prefix inserted between parent and node  
 		Node* ins = new Node();
 		ins->str = key.substr(0, i);
-		ins->children[node->str.at(0) - 'a'] = node; 
-		parent->children[ins->str.at(0) - 'a'] = ins;
+		ins->children[node->str.at(0)] = node; 
+		parent->children[ins->str.at(0)] = ins;
 		// Create a new node with the unique rest of the key and attach it to ins
 		Node* ins2 = new Node();
 		ins2->str = key.substr(i);
 		ins2->value = value; 
 		ins2->end = true; 
-		ins->children[ins2->str.at(0) - 'a'] = ins2;
+		ins->children[ins2->str.at(0)] = ins2;
 		return;
 	}
 }
@@ -162,13 +152,23 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 	else if (i < key.size() && i == node->str.size())
 	{
 		std::string str = key.substr(i);
-		if (node->children[str.at(0) - 'a'] == nullptr)
+		if (node->children[str.at(0)] == nullptr)
 			return nullptr;
 		else
-			return search(node->children[str.at(0) - 'a'], str);
+			return search(node->children[str.at(0)], str);
 	}
 	else
 		return nullptr;
 }
 
+template <typename ValueType>
+void RadixTree<ValueType>::deleteTree(Node* node)
+{
+	for (int i = 0; i < 129; i++)
+	{
+		if (node->children[i] != nullptr)
+			deleteTree(node->children[i]);
+	}
+	delete node;
+}
 #endif 

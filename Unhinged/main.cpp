@@ -7,39 +7,47 @@ using namespace std;
 int main()
 {
     RadixTree<int> test = RadixTree<int>();
+    test.insert("CANNOT", 1);
+    if (test.search("CANNOT") != nullptr)
+        cout << *(test.search("CANNOT")) << endl;
     test.insert("cannot", 2);
     if (test.search("cannot") != nullptr)
-        cout << "NICE" << endl;
+        cout << *(test.search("cannot")) << endl;
     test.insert("can", 2);
+    test.insert("can", 30);
     if (test.search("can") != nullptr)
-        cout << "NICE" << endl;
+        cout << *(test.search("can")) << endl;
+    *(test.search("can")) = 4;
+    cout << *(test.search("can")) << endl;
     if (test.search("ca") == nullptr)
         cout << "NICE" << endl;
-    test.insert("romane", 1);
-    test.insert("romanus", 1);
-    test.insert("romulus", 1);
-    test.insert("rubens", 1);
-    test.insert("ruber", 1);
-    test.insert("rubicon", 1);
-    test.insert("rubicundus", 1);
-    test.insert("roman", 1);
+    test.insert("romane", 3);
+    test.insert("romanus", 4);
+    test.insert("romulus", 5);
+    test.insert("rubens", 6);
+    test.insert("ruber", 7);
+    test.insert("rubicon", 8);
+    test.insert("rubicundus", 9);
+    test.insert("roman", 10);
     if (test.search("rubicundus") != nullptr)
         cout << "NICE" << endl;
     if (test.search("roman") != nullptr)
         cout << "NICE" << endl;
-    /*
-    PersonProfile test = PersonProfile("Vivek", "vksogi@gmail.com");
-    test.AddAttValPair(AttValPair("hobbies", "screaming"));
-    test.AddAttValPair(AttValPair("hobbies", "crying"));
-    test.AddAttValPair(AttValPair("hobbies", "dying"));
-    test.AddAttValPair(AttValPair("favorite food", "sand"));
+    if (test.search("CANNOT") != nullptr)
+        cout << "NICE END" << endl;
+    
+    PersonProfile test3 = PersonProfile("Vivek", "vksogi@gmail.com");
+    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
+    test3.AddAttValPair(AttValPair("hobbies", "crying"));
+    test3.AddAttValPair(AttValPair("hobbies", "dying"));
+    test3.AddAttValPair(AttValPair("favorite food", "sand"));
 
-    for (int i = 0; i < test.GetNumAttValPairs(); i++)
+    for (int i = 0; i < test3.GetNumAttValPairs(); i++)
     {
         AttValPair av;
-        test.GetAttVal(i, av);
+        test3.GetAttVal(i, av);
         std::cout << av.attribute << " -> " << av.value << std::endl;
-    }*/
+    }
 
 }
 /*
