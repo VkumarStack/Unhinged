@@ -35,6 +35,8 @@ int main()
         cout << "NICE" << endl;
     if (test.search("CANNOT") != nullptr)
         cout << "NICE END" << endl;
+    if (test.search("") == nullptr)
+        cout << "EMPTY NOT FOUND" << endl;
     
     PersonProfile test3 = PersonProfile("Vivek", "vksogi@gmail.com");
     test3.AddAttValPair(AttValPair("hobbies", "screaming"));
@@ -48,6 +50,9 @@ int main()
         test3.GetAttVal(i, av);
         std::cout << av.attribute << " -> " << av.value << std::endl;
     }
+    test.insert("cannoter", 2);
+    if (test.search("cannoter") != nullptr)
+        cout << "cannoter" << endl;
 
 }
 /*

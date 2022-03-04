@@ -13,24 +13,24 @@ class RadixTree
 		void insert(std::string key, const ValueType& value);
 		ValueType* search(std::string key) const;
 	private:
-		struct Node
+		struct Node // To be used for the RadixTree
 		{
 			ValueType value;
 			std::string str;
-			bool end;
-			Node* children[129] = { 0 };
+			bool end; // Flag for if the Node can be a valid end to a string 
+			Node* children[129] = { 0 }; // Initialize all children to nullptr by default 
 		};
 		Node* root; 
-		void insert(Node* node, Node* parent, std::string key, const ValueType& value);
-		ValueType* search(Node* node, std::string key) const;
-		void deleteTree(Node* node);
+		void insert(Node* node, Node* parent, std::string key, const ValueType& value); // Recursive insert
+		ValueType* search(Node* node, std::string key) const; // Recursive search
+		void deleteTree(Node* node); // Recursive destructor
 };
 
 template <typename ValueType>
 RadixTree<ValueType>::RadixTree()
 {
 	Node* rt = new Node();
-	rt->str = "";
+	rt->str = ""; // The very first node of the RadixTree is to be the empty string
 	rt->end = false;
 
 	root = rt; 
@@ -45,8 +45,9 @@ RadixTree<ValueType>::~RadixTree()
 template <typename ValueType>
 void RadixTree<ValueType>::insert(std::string key, const ValueType& value)
 {
-	if (key != "")
+	if (key != "") // Do nothing if an empty string is being inserted 
 	{
+		// If a string is being inserted that is not already pathed from the root, just insert it normally 
 		if (root->children[key.at(0)] == nullptr)
 		{
 			Node* ins = new Node();
@@ -56,7 +57,7 @@ void RadixTree<ValueType>::insert(std::string key, const ValueType& value)
 
 			root->children[key.at(0)] = ins;
 		}
-		else
+		else // Otherwise, call the recursive insert 
 			insert(root->children[key.at(0)], root, key, value);
 	}
 }
@@ -92,8 +93,9 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		{
 			Node* ins = new Node();
 			ins->value = value;
-			ins->str = key;
+			ins->str = str;
 			ins->end = true;
+			node->children[str.at(0)] = ins;
 			return;
 		}
 		else // Otherwise, traverse further
