@@ -88,7 +88,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 	else if (i == node->str.size() && i < key.size()) // Case #2: Both strings have equivalent prefixes; traverse further down if possible or create a new node if not  
 	{
 		std::string str = key.substr(i);
-		// If the appropriate letter pointer is empty, then create a new node 
+		// If the appropriate letter pointer is empty, then create a new node and connect it
 		if (node->children[str.at(0)] == nullptr)
 		{
 			Node* ins = new Node();
@@ -135,6 +135,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 template <typename ValueType>
 ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 {
+	// Iterate for shared prefix
 	int i;
 	for (i = 0; i < node->str.size() && i < key.size(); i++)
 	{
@@ -142,6 +143,7 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 			break;
 	}
 
+	// If both strings are equivalent, check if the Node is flagged as being a valid string 
 	if (i == key.size() && i == node->str.size())
 	{
 		if (node->end == true)
@@ -149,17 +151,17 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 		else
 			return nullptr;
 	}
-	else if (i == key.size() && i < node->str.size())
+	else if (i == key.size() && i < node->str.size()) // If the key reaches the end but the Node's string does not, then it is not found
 		return nullptr;
-	else if (i < key.size() && i == node->str.size())
+	else if (i < key.size() && i == node->str.size()) // If the Node's string reaches the end, then check if further traversals can be made 
 	{
 		std::string str = key.substr(i);
-		if (node->children[str.at(0)] == nullptr)
+		if (node->children[str.at(0)] == nullptr) // If no further traversal can be made, it is not found
 			return nullptr;
 		else
 			return search(node->children[str.at(0)], str);
 	}
-	else
+	else // If the prefixes do not match, then it is not found 
 		return nullptr;
 }
 
