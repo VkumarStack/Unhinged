@@ -1,5 +1,6 @@
 //main.cpp
 #include <iostream>
+#include <cassert>
 #include "provided.h"
 #include "PersonProfile.h"
 #include "RadixTree.h"
@@ -7,36 +8,31 @@ using namespace std;
 int main()
 {
     RadixTree<int> test = RadixTree<int>();
-    test.insert("CANNOT", 1);
-    if (test.search("CANNOT") != nullptr)
-        cout << *(test.search("CANNOT")) << endl;
-    test.insert("cannot", 2);
-    if (test.search("cannot") != nullptr)
-        cout << *(test.search("cannot")) << endl;
-    test.insert("can", 2);
-    test.insert("can", 30);
-    if (test.search("can") != nullptr)
-        cout << *(test.search("can")) << endl;
-    *(test.search("can")) = 4;
-    cout << *(test.search("can")) << endl;
-    if (test.search("ca") == nullptr)
-        cout << "NICE" << endl;
-    test.insert("romane", 3);
-    test.insert("romanus", 4);
+    test.insert("rubicundus", 1);
+    test.insert("rubicon", 2);
+    test.insert("ruber", 3);
+    test.insert("rubens", 4);
     test.insert("romulus", 5);
-    test.insert("rubens", 6);
-    test.insert("ruber", 7);
-    test.insert("rubicon", 8);
-    test.insert("rubicundus", 9);
-    test.insert("roman", 10);
-    if (test.search("rubicundus") != nullptr)
-        cout << "NICE" << endl;
-    if (test.search("roman") != nullptr)
-        cout << "NICE" << endl;
-    if (test.search("CANNOT") != nullptr)
-        cout << "NICE END" << endl;
-    if (test.search("") == nullptr)
-        cout << "EMPTY NOT FOUND" << endl;
+    test.insert("romanus", 6);
+    test.insert("roman", 8);
+    test.insert("romane", 7);
+    int* v;
+    v = test.search("rubicundus");
+    assert(v != nullptr && *v == 1);
+    v = test.search("rubicon");
+    assert(v != nullptr && *v == 2);
+    v = test.search("ruber");
+    assert(v != nullptr && *v == 3);
+    v = test.search("rubens");
+    assert(v != nullptr && *v == 4);
+    v = test.search("romulus");
+    assert(v != nullptr && *v == 5);
+    v = test.search("romanus");
+    assert(v != nullptr && *v == 6);
+    v = test.search("romane");
+    assert(v != nullptr && *v == 7);
+    v = test.search("roman");
+    assert(v != nullptr && *v == 8);
     
     PersonProfile test3 = PersonProfile("Vivek", "vksogi@gmail.com");
     test3.AddAttValPair(AttValPair("hobbies", "screaming"));
@@ -50,10 +46,6 @@ int main()
         test3.GetAttVal(i, av);
         std::cout << av.attribute << " -> " << av.value << std::endl;
     }
-    test.insert("cannoter", 2);
-    if (test.search("cannoter") != nullptr)
-        cout << "cannoter" << endl;
-
 }
 /*
 #include "PersonProfile.h"
