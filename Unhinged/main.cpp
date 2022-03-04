@@ -2,8 +2,32 @@
 #include <iostream>
 #include "provided.h"
 #include "PersonProfile.h"
+#include "RadixTree.h"
+using namespace std;
 int main()
 {
+    RadixTree<int> test = RadixTree<int>();
+    test.insert("cannot", 2);
+    if (test.search("cannot") != nullptr)
+        cout << "NICE" << endl;
+    test.insert("can", 2);
+    if (test.search("can") != nullptr)
+        cout << "NICE" << endl;
+    if (test.search("ca") == nullptr)
+        cout << "NICE" << endl;
+    test.insert("romane", 1);
+    test.insert("romanus", 1);
+    test.insert("romulus", 1);
+    test.insert("rubens", 1);
+    test.insert("ruber", 1);
+    test.insert("rubicon", 1);
+    test.insert("rubicundus", 1);
+    test.insert("roman", 1);
+    if (test.search("rubicundus") != nullptr)
+        cout << "NICE" << endl;
+    if (test.search("roman") != nullptr)
+        cout << "NICE" << endl;
+    /*
     PersonProfile test = PersonProfile("Vivek", "vksogi@gmail.com");
     test.AddAttValPair(AttValPair("hobbies", "screaming"));
     test.AddAttValPair(AttValPair("hobbies", "crying"));
@@ -15,7 +39,8 @@ int main()
         AttValPair av;
         test.GetAttVal(i, av);
         std::cout << av.attribute << " -> " << av.value << std::endl;
-    }
+    }*/
+
 }
 /*
 #include "PersonProfile.h"
