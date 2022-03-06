@@ -1,0 +1,38 @@
+Ivan Meyers
+IvaMeyer3999@icloud.com
+10
+job,teacher
+hobby,surfing
+trait,apathetic
+trait,discourteous
+trait,nervous
+trait,moody
+trait,mechanical
+trait,amoral
+trait,cruel
+trait,morbid
+
+Malcolm Mcclain
+MalcoMcc@cox.net
+10
+job,electrician
+hobby,reading
+hobby,beatboxing
+hobby,origami
+hobby,drawing
+trait,phlegmatic
+trait,narrow
+trait,destructive
+trait,puritanical
+trait,amoral
+
+Remy Weaver
+ReWe49187@hotmail.com
+7
+job,chef
+hobby,skate boarding
+trait,ungrateful
+trait,short
+trait,morbid
+trait,amoral
+trait,unimaginative

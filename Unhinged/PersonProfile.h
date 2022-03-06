@@ -16,7 +16,7 @@ class PersonProfile
 		std::string GetEmail() const { return m_email; }
 		void AddAttValPair(const AttValPair& attval);
 		int GetNumAttValPairs() const { return m_numPairs; }
-		bool GetAttVal(int attribute_num, AttValPair& attval); //const;
+		bool GetAttVal(int attribute_num, AttValPair& attval) const;
 	private:
 		std::string m_name;
 		std::string m_email;

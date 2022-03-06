@@ -34,7 +34,7 @@ void PersonProfile::AddAttValPair(const AttValPair& attval)
 	// Overall time complexity: O(log(n))
 }
 
-bool PersonProfile::GetAttVal(int attribute_num, AttValPair& attval) //const
+bool PersonProfile::GetAttVal(int attribute_num, AttValPair& attval) const
 {
 	// Check if the attribute_num is valid 
 	if (attribute_num >= 0 && attribute_num < m_numPairs)

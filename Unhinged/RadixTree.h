@@ -9,13 +9,14 @@ class RadixTree
 {
 	public:
 		RadixTree();
+		RadixTree(const RadixTree<typename ValueType>& other);
 		~RadixTree();
 		void insert(std::string key, const ValueType& value);
 		ValueType* search(std::string key) const;
 	private:
 		struct Node // To be used for the RadixTree
 		{
-			ValueType value;
+			ValueType* value;
 			std::string str;
 			bool end; // Flag for if the Node can be a valid end to a string 
 			Node* children[129] = { 0 }; // Initialize all children to nullptr by default 
@@ -37,6 +38,17 @@ RadixTree<ValueType>::RadixTree()
 }
 
 template <typename ValueType>
+RadixTree<ValueType>::RadixTree(const RadixTree<typename ValueType>& other)
+{
+	Node* rt = new Node();
+	rt->str = "";
+	rt->end = false;
+
+
+	root = rt;
+}
+
+template <typename ValueType>
 RadixTree<ValueType>::~RadixTree()
 {
 	deleteTree(root);
@@ -52,7 +64,7 @@ void RadixTree<ValueType>::insert(std::string key, const ValueType& value)
 		{
 			Node* ins = new Node();
 			ins->str = key;
-			ins->value = value;
+			ins->value = new ValueType(value);
 			ins->end = true;
 
 			root->children[key.at(0)] = ins;
@@ -82,7 +94,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 	if (i == node->str.size() && i == key.size())
 	{
 		node->end = true;
-		node->value = value; 
+		node->value = new ValueType(value);
 		return;
 	}
 	else if (i == node->str.size() && i < key.size()) // Case #2: Both strings have equivalent prefixes; traverse further down if possible or create a new node if not  
@@ -92,7 +104,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		if (node->children[str.at(0)] == nullptr)
 		{
 			Node* ins = new Node();
-			ins->value = value;
+			ins->value = new ValueType(value);
 			ins->str = str;
 			ins->end = true;
 			node->children[str.at(0)] = ins;
@@ -107,7 +119,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		// Create new node with the common prefix inserted in between parent and node 
 		Node* ins = new Node();
 		ins->str = key; 
-		ins->value = value;
+		ins->value = new ValueType(value);
 		ins->end = true;
 		ins->children[node->str.at(0)] = node;
 		parent->children[ins->str.at(0)] = ins;
@@ -125,7 +137,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 		// Create a new node with the unique rest of the key and attach it to ins
 		Node* ins2 = new Node();
 		ins2->str = key.substr(i);
-		ins2->value = value; 
+		ins2->value = new ValueType(value); 
 		ins2->end = true; 
 		ins->children[ins2->str.at(0)] = ins2;
 		return;
@@ -147,7 +159,7 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 	if (i == key.size() && i == node->str.size())
 	{
 		if (node->end == true)
-			return &(node->value);
+			return node->value;
 		else
 			return nullptr;
 	}
@@ -168,11 +180,14 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 template <typename ValueType>
 void RadixTree<ValueType>::deleteTree(Node* node)
 {
+	if (node == nullptr)
+		return;
+
 	for (int i = 0; i < 129; i++)
 	{
-		if (node->children[i] != nullptr)
-			deleteTree(node->children[i]);
+		deleteTree(node->children[i]);
 	}
+	delete node->value;
 	delete node;
 }
 #endif 

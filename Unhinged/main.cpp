@@ -7,7 +7,32 @@
 #include "PersonProfile.h"
 #include "AttributeTranslator.h"
 #include "RadixTree.h"
+#include "MemberDatabase.h"
 using namespace std;
+
+/*int main()
+{
+    MemberDatabase database;
+    if (database.LoadDatabase("membersShorter.txt"))
+    {
+        cout << "W" << endl;
+        AttValPair test = AttValPair("trait", "amoral");
+        vector<std::string> matches = database.FindMatchingMembers(test);
+        for (int i = 0; i < matches.size(); i++)
+            cout << matches.at(i) << endl;
+
+        const PersonProfile* prof = database.GetMemberByEmail(matches[0]);
+        cout << prof->GetEmail() << endl << prof->GetName() << endl << prof->GetNumAttValPairs() << endl;
+        for (int i = 0; i < prof->GetNumAttValPairs(); i++)
+        {
+            AttValPair par;
+            prof->GetAttVal(i, par);
+            cout << par.attribute << " " << par.value << endl;
+        }
+    }
+}*/
+
+/*
 int main()
 {
     AttributeTranslator translator;
@@ -20,7 +45,9 @@ int main()
             cout << test[i].attribute << " " << test[i].value << " " << endl;
         }
     }
-}
+}*/
+
+
 /*int main()
 {
     RadixTree<int> test = RadixTree<int>();
