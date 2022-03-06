@@ -144,6 +144,7 @@
     <ClCompile Include="MatchMaker.cpp" />
     <ClCompile Include="MemberDatabase.cpp" />
     <ClCompile Include="PersonProfile.cpp" />
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributeTranslator.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="PersonProfile.h" />
     <ClInclude Include="provided.h" />
     <ClInclude Include="RadixTree.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\OneDrive\Desktop\Unhinged\members.txt" />

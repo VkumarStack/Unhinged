@@ -9,7 +9,6 @@ class RadixTree
 {
 	public:
 		RadixTree();
-		RadixTree(const RadixTree<typename ValueType>& other);
 		~RadixTree();
 		void insert(std::string key, const ValueType& value);
 		ValueType* search(std::string key) const;
@@ -35,17 +34,6 @@ RadixTree<ValueType>::RadixTree()
 	rt->end = false;
 
 	root = rt; 
-}
-
-template <typename ValueType>
-RadixTree<ValueType>::RadixTree(const RadixTree<typename ValueType>& other)
-{
-	Node* rt = new Node();
-	rt->str = "";
-	rt->end = false;
-
-
-	root = rt;
 }
 
 template <typename ValueType>

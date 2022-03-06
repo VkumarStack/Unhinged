@@ -2,6 +2,7 @@
 #include "PersonProfile.h"
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 MemberDatabase::~MemberDatabase()
 {
@@ -39,6 +40,7 @@ bool MemberDatabase::LoadDatabase(std::string filename)
 			m_emails.push_back(email);
 
 			int atts = std::stoi(line);
+
 			std::getline(myfile, line);
 			for (int i = 0; i < atts; i++)
 			{
@@ -47,6 +49,7 @@ bool MemberDatabase::LoadDatabase(std::string filename)
 				std::string val;
 				std::getline(strm, att, ',');
 				std::getline(strm, val, ',');
+
 				AttValPair pair = AttValPair(att, val);
 				std::set<std::string>* setEmails = m_emailTree.search(att + " " + val);
 				if (setEmails == nullptr)
@@ -85,5 +88,9 @@ std::vector<std::string> MemberDatabase::FindMatchingMembers(const AttValPair& i
 
 const PersonProfile* MemberDatabase::GetMemberByEmail(std::string email) const
 {
-	return *m_profileTree.search(email);
+	PersonProfile** ret = m_profileTree.search(email);
+	if (ret == nullptr)
+		return nullptr;
+	else
+		return *ret;
 }

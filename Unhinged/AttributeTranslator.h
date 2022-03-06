@@ -18,5 +18,4 @@ class AttributeTranslator
 		RadixTree<std::set<AttValPair>> m_tree;
 };
 
-bool operator<(const AttValPair& lhs, const AttValPair& rhs);
 #endif

@@ -4,6 +4,7 @@ using namespace std;
 
 PersonProfile::PersonProfile(string name, string email)
 {
+	m_numPairs = 0;
 	m_name = name;
 	m_email = email;
 }

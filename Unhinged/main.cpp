@@ -8,9 +8,11 @@
 #include "AttributeTranslator.h"
 #include "RadixTree.h"
 #include "MemberDatabase.h"
+#include "MatchMaker.h"
 using namespace std;
 
-/*int main()
+/*
+int main()
 {
     MemberDatabase database;
     if (database.LoadDatabase("membersShorter.txt"))
@@ -107,6 +109,7 @@ int main()
 #include <iostream>
 #include <string>
 #include <vector>
+*/
 
 const std::string MEMBERS_FILE    = "members.txt";
 const std::string TRANSLATOR_FILE = "translator.txt";
@@ -179,4 +182,3 @@ bool findMatches(const MemberDatabase& mdb, const AttributeTranslator& at)
     std::cout << std::endl;
     return true;
 }
-*/
