@@ -1,11 +1,27 @@
 //main.cpp
 #include <iostream>
+#include <vector>
 #include <cassert>
+#include <fstream>
 #include "provided.h"
 #include "PersonProfile.h"
+#include "AttributeTranslator.h"
 #include "RadixTree.h"
 using namespace std;
 int main()
+{
+    AttributeTranslator translator;
+    if (translator.Load("translator.txt"))
+    {
+        cout << "W" << endl;
+        vector<AttValPair> test = translator.FindCompatibleAttValPairs(AttValPair("trait", "disruptive"));
+        for (int i = 0; i < test.size(); i++)
+        {
+            cout << test[i].attribute << " " << test[i].value << " " << endl;
+        }
+    }
+}
+/*int main()
 {
     RadixTree<int> test = RadixTree<int>();
     test.insert("rubicundus", 1);
@@ -46,7 +62,15 @@ int main()
         test3.GetAttVal(i, av);
         std::cout << av.attribute << " -> " << av.value << std::endl;
     }
-}
+
+    RadixTree<int> test2 = RadixTree<int>();
+    test2.insert("slowly", 5);
+    test2.insert("slow", 4);
+    test2.insert("toasting", 3);
+    test2.insert("toaster", 2);
+    test2.insert("test", 1);
+
+}*/
 /*
 #include "PersonProfile.h"
 #include "AttributeTranslator.h"
