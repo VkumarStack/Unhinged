@@ -20,7 +20,7 @@ class PersonProfile
 	private:
 		std::string m_name;
 		std::string m_email;
-		// The same attribute can have multiple different values, and since the RadixTree only allows for SINGLE Key/Value pairs to be stored,
+		// The same attribute can have multiple different values, and since the RadixTree only allows for SINGLE Key/Value pairs to be stored, use
 		// a RadixTree of a set of strings representing values for that specific attribute being mapped with
 		RadixTree<std::set<std::string>> m_tree; 
 		int m_numPairs;

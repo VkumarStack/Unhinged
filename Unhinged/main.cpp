@@ -1,5 +1,23 @@
 //main.cpp
+#if defined(_MSC_VER)  &&  !defined(_DEBUG)
 #include <iostream>
+#include <windows.h>
+#include <conio.h>
+
+struct KeepWindowOpenUntilDismissed
+{
+    ~KeepWindowOpenUntilDismissed()
+    {
+        DWORD pids[1];
+        if (GetConsoleProcessList(pids, 1) == 1)
+        {
+            std::cout << "Press any key to close this window . . . ";
+            _getch();
+        }
+    }
+} keepWindowOpenUntilDismissed;
+#endif
+
 #include <vector>
 #include <cassert>
 #include <fstream>
@@ -11,13 +29,12 @@
 #include "MatchMaker.h"
 using namespace std;
 
-/*
+
 int main()
 {
     MemberDatabase database;
-    if (database.LoadDatabase("membersShorter.txt"))
+    if (database.LoadDatabase("members.txt"))
     {
-        cout << "W" << endl;
         AttValPair test = AttValPair("trait", "amoral");
         vector<std::string> matches = database.FindMatchingMembers(test);
         for (int i = 0; i < matches.size(); i++)
@@ -32,7 +49,7 @@ int main()
             cout << par.attribute << " " << par.value << endl;
         }
     }
-}*/
+}
 
 /*
 int main()
@@ -49,8 +66,8 @@ int main()
     }
 }*/
 
-
-/*int main()
+/*
+int main()
 {
     RadixTree<int> test = RadixTree<int>();
     test.insert("rubicundus", 1);
@@ -81,10 +98,14 @@ int main()
     
     PersonProfile test3 = PersonProfile("Vivek", "vksogi@gmail.com");
     test3.AddAttValPair(AttValPair("hobbies", "screaming"));
+    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
+    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
+    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
     test3.AddAttValPair(AttValPair("hobbies", "crying"));
     test3.AddAttValPair(AttValPair("hobbies", "dying"));
     test3.AddAttValPair(AttValPair("favorite food", "sand"));
 
+    cout << test3.GetNumAttValPairs() << endl;
     for (int i = 0; i < test3.GetNumAttValPairs(); i++)
     {
         AttValPair av;
@@ -110,30 +131,34 @@ int main()
 #include <string>
 #include <vector>
 */
-
+/*
 const std::string MEMBERS_FILE    = "members.txt";
 const std::string TRANSLATOR_FILE = "translator.txt";
 
 bool findMatches(const MemberDatabase& mdb, const AttributeTranslator& at);
 
+
 int main() {
-    MemberDatabase mdb;
-    if (!mdb.LoadDatabase(MEMBERS_FILE))
+    if (true)
     {
-        std::cout << "Error loading " << MEMBERS_FILE << std::endl;
-        return 1;
-    }
-    AttributeTranslator at;
-    if (!at.Load(TRANSLATOR_FILE))
-    {
-        std::cout << "Error loading " << TRANSLATOR_FILE << std::endl;
-        return 1;
-    }
+        MemberDatabase mdb;
+        if (!mdb.LoadDatabase(MEMBERS_FILE))
+        {
+            std::cout << "Error loading " << MEMBERS_FILE << std::endl;
+            return 1;
+        }
+        AttributeTranslator at;
+        if (!at.Load(TRANSLATOR_FILE))
+        {
+            std::cout << "Error loading " << TRANSLATOR_FILE << std::endl;
+            return 1;
+        }
 
-    while (findMatches(mdb, at))
-        ;
+        while (findMatches(mdb, at))
+            ;
 
-    std::cout << "Happy dating!" << std::endl;
+        std::cout << "Happy dating!" << std::endl;
+    }
 }
 
 bool findMatches(const MemberDatabase& mdb, const AttributeTranslator& at)
@@ -181,4 +206,65 @@ bool findMatches(const MemberDatabase& mdb, const AttributeTranslator& at)
     }
     std::cout << std::endl;
     return true;
+}*/
+
+/*
+int main()
+{
+    AttributeTranslator at;
+    if (at.Load("translator.txt"))
+    {
+        vector<AttValPair> test = at.FindCompatibleAttValPairs(AttValPair("job", "librarian"));
+        for (int i = 0; i < test.size(); i++)
+        {
+            cout << test[i].attribute + " " + test[i].value << endl;
+        }
+    }
 }
+*/
+
+/*
+int main()
+{
+    MemberDatabase mdb;
+    if (!mdb.LoadDatabase(MEMBERS_FILE))
+    {
+        std::cout << "Error loading " << MEMBERS_FILE << std::endl;
+        return 1;
+    }
+    AttributeTranslator at;
+    if (!at.Load(TRANSLATOR_FILE))
+    {
+        std::cout << "Error loading " << TRANSLATOR_FILE << std::endl;
+        return 1;
+    }
+
+    ofstream myfile;
+    myfile.open("output.txt");
+    if (!myfile)
+    {
+        std::cout << "Error loading output file" << std::endl;
+    }
+
+    MatchMaker mm(mdb, at);
+    for (int i = 0; i < mdb.m_emails.size(); i++)
+    {
+        cout << "Member " << i << endl;
+        myfile << mdb.m_emails.at(i) << endl;
+        myfile << "7 REQUIRED TRAITS" << endl;
+        vector<EmailCount> matches = mm.IdentifyRankedMatches(mdb.m_emails.at(i), 7);
+        if (matches.empty())
+            myfile << "NO MATCHES" << endl;
+        else
+        {
+            for (int j = 0; j < matches.size(); j++)
+            {
+                myfile << matches[j].email << " with "
+                    << matches[j].count << " matches!" << endl;
+            }
+        }
+        myfile << endl;
+    }
+
+    myfile.close();
+}*/

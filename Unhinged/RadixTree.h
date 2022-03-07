@@ -168,7 +168,7 @@ ValueType* RadixTree<ValueType>::search(Node* node, std::string key) const
 template <typename ValueType>
 void RadixTree<ValueType>::deleteTree(Node* node)
 {
-	if (node == nullptr)
+	if (node == nullptr) // Base case
 		return;
 
 	for (int i = 0; i < 129; i++)

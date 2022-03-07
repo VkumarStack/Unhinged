@@ -1,10 +1,3 @@
-hobby,beating pete davidson's ass,hobby,loving pete davidson's ass
-hobby,rapping,hobby,avoiding kanye omari west
-trait,being the greatest rapper alive,trait,divorcing the greatest rapper alive
-hobby,loving pete davidson's ass,hobby,beating pete davidson's ass
-hobby,avoiding kanye omari west,hobby,rapping
-trait,divorcing the greatest rapper alive,trait,being the greatest rapper alive
-hobby,beating pete davidson's ass,hobby,loving pete davidson's ass
 trait,transparent,trait,transparent
 job,chef,hobby,eating
 job,writer,job,janitor
