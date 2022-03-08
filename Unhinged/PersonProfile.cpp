@@ -1,8 +1,7 @@
 #include "PersonProfile.h"
 #include "provided.h"
-using namespace std;
 
-PersonProfile::PersonProfile(string name, string email)
+PersonProfile::PersonProfile(std::string name, std::string email)
 {
 	m_numPairs = 0;
 	m_name = name;
@@ -12,10 +11,10 @@ PersonProfile::PersonProfile(string name, string email)
 void PersonProfile::AddAttValPair(const AttValPair& attval)
 {
 	// Determine if the Attribute is in the RadixTree
-	set<string>* result = m_tree.search(attval.attribute); // O(1) since attribute length can be assumed constant 
+	std::set<std::string>* result = m_tree.search(attval.attribute); // O(1) since attribute length can be assumed constant 
 	if (result == nullptr) // If not, create a new set of strings representing values, insert attval's value into the set, and insert the set into the RadixTree  
 	{
-		set<string> val = set<string>();
+		std::set<std::string> val;
 		val.insert(attval.value); // O(1) since the set is previously empty
 		m_tree.insert(attval.attribute, val); // O(1)
 		m_numPairs++;

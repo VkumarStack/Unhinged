@@ -29,8 +29,11 @@ bool MemberDatabase::LoadDatabase(std::string filename)
 			
 			PersonProfile** search = m_profileTree.search(email); // Check if the email exists in the database already 
 			if (search != nullptr) // If it does, return false
+			{
+				myfile.close();
 				return false;
-			
+			}
+
 			PersonProfile* prof = new PersonProfile(name, email); // Create a dynamically allocated PersonProfile with the given information
 			m_profileTree.insert(email, prof); // Map email address to profile
 			m_emails.push_back(email); // Push back email address to vector 
@@ -47,21 +50,22 @@ bool MemberDatabase::LoadDatabase(std::string filename)
 				std::getline(strm, val, ',');
 
 				AttValPair pair = AttValPair(att, val);
-				std::set<std::string>* setEmails = m_emailTree.search(att + " " + val); // Check if the concatenated AttValPair exists in the RadixTree already
-				if (setEmails == nullptr) // If it does not, create a set of strings representing emails, insert the current email into the set, and insert the set into AttValPair to Emails tree
+				std::vector<std::string>* vecEmails = m_emailTree.search(att + " " + val); // Check if the concatenated AttValPair exists in the RadixTree already
+				if (vecEmails == nullptr) // If it does not, create a vector of strings representing emails, insert the current email into the vector, and insert the vector into AttValPair to Emails tree
 				{
-					std::set<std::string> emails;
-					emails.insert(email);
+					std::vector<std::string> emails;
+					emails.push_back(email);
 					m_emailTree.insert(att + " " + val, emails);
 				}
-				else // Otherwise, insert the email into the found set of emails 
-					setEmails->insert(email);
+				else // Otherwise, insert the email into the found vector of emails 
+					vecEmails->push_back(email);
 				
-				(*m_profileTree.search(email))->AddAttValPair(pair); // For the current PersonProfile, add the current AttValPair
+				prof->AddAttValPair(pair); // For the current PersonProfile, add the current AttValPair
 				std::getline(myfile, line); // Go to next line
 			}
 		}
 	}
+	myfile.close();
 	return true;
 }
 
@@ -69,17 +73,9 @@ std::vector<std::string> MemberDatabase::FindMatchingMembers(const AttValPair& i
 {
 	std::vector<std::string> ret;
 	// O(1) for searching through the RadixTree 
-	std::set<std::string>* result = m_emailTree.search(input.attribute + " " + input.value); // Get a set of all matching members with the input AttValPair
-	if (result != nullptr) // Transfer all string data from the set into the vector 
-	{
-		std::set<std::string>::const_iterator it;
-		it = result->begin();
-		while (it != result->end()) // O(M), where M is the number of members with the attribute value pair
-		{
-			ret.push_back(*it);
-			it++;
-		}
-	}
+	std::vector<std::string>* result = m_emailTree.search(input.attribute + " " + input.value); // Get a vector of all matching members with the input AttValPair
+	if (result != nullptr) // Transfer all string data from the vector into the return vector 
+		ret = *result; // O(M), where M is the number of members with the attribute value pair
 	return ret;
 	// Overall time complexity: O(M)
 }
@@ -91,6 +87,6 @@ const PersonProfile* MemberDatabase::GetMemberByEmail(std::string email) const
 	if (ret == nullptr) // Return nullptr if it is not found 
 		return nullptr; // Don't want to dereference a nullptr 
 	else
-		return *ret; // Otherwise return the PersonProfile 
+		return *ret; // Otherwise return the PersonProfile pointer
 	// Overall time complexity: O(1)
 }

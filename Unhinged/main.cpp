@@ -1,5 +1,5 @@
 //main.cpp
-#if defined(_MSC_VER)  &&  !defined(_DEBUG)
+/*#if defined(_MSC_VER)  &&  !defined(_DEBUG)
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
@@ -17,9 +17,11 @@ struct KeepWindowOpenUntilDismissed
     }
 } keepWindowOpenUntilDismissed;
 #endif
+*/
 
 #include <vector>
 #include <cassert>
+#include <iostream>
 #include <fstream>
 #include "provided.h"
 #include "PersonProfile.h"
@@ -28,8 +30,32 @@ struct KeepWindowOpenUntilDismissed
 #include "MemberDatabase.h"
 #include "MatchMaker.h"
 using namespace std;
+/*
+int main()
+{
+    MemberDatabase database;
+    assert(!database.LoadDatabase("this file does not exist"));
+    bool loaded = database.LoadDatabase("members.txt");
+    assert(loaded);
 
+    AttValPair test = AttValPair("trait", "unself-critical");
+    vector<std::string> matches = database.FindMatchingMembers(test);
+    for (int i = 0; i < matches.size(); i++)
+        cout << matches.at(i) << endl;
+    // Has a lot of members, should include AbFow2483@charter.net and DSh49@aim.com among many, many others
 
+    const PersonProfile* prof = database.GetMemberByEmail("AbFow2483@charter.net");
+    cout << prof->GetEmail() << endl << prof->GetName() << endl << prof->GetNumAttValPairs() << endl; 
+    // Should have 12 NumAttValPairs; although the members.txt file lists 13, there is a duplicate  
+    for (int i = 0; i < prof->GetNumAttValPairs(); i++)
+    {
+        AttValPair par;
+        prof->GetAttVal(i, par);
+        cout << par.attribute << " " << par.value << endl;
+    } // job architect, hobby canyoneering, hobby slacklining, hobby painting, trait sly, trait incurious, trait excitable, 
+      // trait unself-critical, trait vacuous, trait discouraging, trait disloyal, trait aloof
+}*/
+/*
 int main()
 {
     MemberDatabase database;
@@ -49,7 +75,7 @@ int main()
             cout << par.attribute << " " << par.value << endl;
         }
     }
-}
+}*/
 
 /*
 int main()
@@ -96,29 +122,36 @@ int main()
     v = test.search("roman");
     assert(v != nullptr && *v == 8);
     
-    PersonProfile test3 = PersonProfile("Vivek", "vksogi@gmail.com");
-    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
-    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
-    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
-    test3.AddAttValPair(AttValPair("hobbies", "screaming"));
-    test3.AddAttValPair(AttValPair("hobbies", "crying"));
-    test3.AddAttValPair(AttValPair("hobbies", "dying"));
-    test3.AddAttValPair(AttValPair("favorite food", "sand"));
+    test.insert("roman", 9); // Insertion should override values
+    v = test.search("roman");
+    assert(v != nullptr && *v == 9);
 
-    cout << test3.GetNumAttValPairs() << endl;
-    for (int i = 0; i < test3.GetNumAttValPairs(); i++)
-    {
-        AttValPair av;
-        test3.GetAttVal(i, av);
-        std::cout << av.attribute << " -> " << av.value << std::endl;
-    }
-
+    // Backwards
     RadixTree<int> test2 = RadixTree<int>();
-    test2.insert("slowly", 5);
-    test2.insert("slow", 4);
-    test2.insert("toasting", 3);
-    test2.insert("toaster", 2);
-    test2.insert("test", 1);
+    test2.insert("romane", 7);
+    test2.insert("roman", 8);
+    test2.insert("romanus", 6);
+    test2.insert("romulus", 5);
+    test2.insert("rubens", 4);
+    test2.insert("ruber", 3);
+    test2.insert("rubicon", 2);
+    test2.insert("rubicundus", 1);
+    v = test2.search("rubicundus");
+    assert(v != nullptr && *v == 1);
+    v = test2.search("rubicon");
+    assert(v != nullptr && *v == 2);
+    v = test2.search("ruber");
+    assert(v != nullptr && *v == 3);
+    v = test2.search("rubens");
+    assert(v != nullptr && *v == 4);
+    v = test2.search("romulus");
+    assert(v != nullptr && *v == 5);
+    v = test2.search("romanus");
+    assert(v != nullptr && *v == 6);
+    v = test2.search("romane");
+    assert(v != nullptr && *v == 7);
+    v = test2.search("roman");
+    assert(v != nullptr && *v == 8);
 
 }*/
 /*
@@ -131,7 +164,8 @@ int main()
 #include <string>
 #include <vector>
 */
-/*
+
+
 const std::string MEMBERS_FILE    = "members.txt";
 const std::string TRANSLATOR_FILE = "translator.txt";
 
@@ -206,22 +240,25 @@ bool findMatches(const MemberDatabase& mdb, const AttributeTranslator& at)
     }
     std::cout << std::endl;
     return true;
-}*/
+}
 
 /*
 int main()
 {
-    AttributeTranslator at;
-    if (at.Load("translator.txt"))
-    {
-        vector<AttValPair> test = at.FindCompatibleAttValPairs(AttValPair("job", "librarian"));
-        for (int i = 0; i < test.size(); i++)
-        {
-            cout << test[i].attribute + " " + test[i].value << endl;
-        }
-    }
-}
-*/
+    MemberDatabase base;
+    AttributeTranslator translator;
+    base.LoadDatabase("members.txt");
+    translator.Load("translator.txt");
+    const PersonProfile* prof = base.GetMemberByEmail("test");
+    if (prof == nullptr)
+        cout << "nice" << endl;
+
+    MatchMaker mm(base, translator);
+    vector<EmailCount> test = mm.IdentifyRankedMatches("not even close baby", 5);
+    if (test.empty())
+        cout << "nice" << endl;
+}*/
+
 
 /*
 int main()
@@ -267,4 +304,31 @@ int main()
     }
 
     myfile.close();
+}*/
+
+/*
+int main()
+{
+    MemberDatabase database;
+    assert(!database.LoadDatabase("this file does not exist"));
+    bool loaded = database.LoadDatabase("members.txt");
+    assert(loaded);
+
+    AttValPair test = AttValPair("trait", "unself-critical");
+    vector<std::string> matches = database.FindMatchingMembers(test);
+    for (int i = 0; i < matches.size(); i++)
+        cout << matches.at(i) << endl;
+    // Has a lot of members, should include AbFow2483@charter.net and DSh49@aim.com among many, many others
+
+    const PersonProfile* prof = database.GetMemberByEmail("AbFow2483@charter.net");
+    cout << prof->GetEmail() << endl << prof->GetName() << endl << prof->GetNumAttValPairs() << endl;
+    // Should have 12 NumAttValPairs; although the members.txt file lists 13, there is a duplicate  
+    for (int i = 0; i < prof->GetNumAttValPairs(); i++)
+    {
+        AttValPair par;
+        prof->GetAttVal(i, par);
+        cout << par.attribute << " " << par.value << endl;
+    } // job architect, hobby canyoneering, hobby slacklining, hobby painting, trait sly, trait incurious, trait excitable, 
+      // trait unself-critical, trait vacuous, trait discouraging, trait disloyal, trait aloof
+
 }*/

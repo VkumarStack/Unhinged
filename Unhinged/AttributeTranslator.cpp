@@ -32,6 +32,7 @@ bool AttributeTranslator::Load(std::string filename)
 				result->insert(AttValPair(pairs[2], pairs[3])); // Otherwise, the Source AttValPair exists in the tree, insert the compatible AttValPair into the set 
 		}
 	}
+	myfile.close();
 	return true;
 }
 
