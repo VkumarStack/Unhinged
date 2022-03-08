@@ -2,7 +2,6 @@
 #include "PersonProfile.h"
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 MemberDatabase::~MemberDatabase()
 {
@@ -50,18 +49,23 @@ bool MemberDatabase::LoadDatabase(std::string filename)
 				std::getline(strm, val, ',');
 
 				AttValPair pair = AttValPair(att, val);
-				std::vector<std::string>* vecEmails = m_emailTree.search(att + " " + val); // Check if the concatenated AttValPair exists in the RadixTree already
+				prof->AddAttValPair(pair); // For the current PersonProfile, add the current AttValPair
+				std::getline(myfile, line); // Go to next line
+			}
+
+			for (int i = 0; i < prof->GetNumAttValPairs(); i++) // Separate loop since prof is guaranteed to not have any duplicates
+			{
+				AttValPair pair;
+				prof->GetAttVal(i, pair);
+				std::vector<std::string>* vecEmails = m_emailTree.search(pair.attribute + " " + pair.value); // Check if the concatenated AttValPair exists in the RadixTree already
 				if (vecEmails == nullptr) // If it does not, create a vector of strings representing emails, insert the current email into the vector, and insert the vector into AttValPair to Emails tree
 				{
 					std::vector<std::string> emails;
 					emails.push_back(email);
-					m_emailTree.insert(att + " " + val, emails);
+					m_emailTree.insert(pair.attribute + " " + pair.value, emails);
 				}
 				else // Otherwise, insert the email into the found vector of emails 
 					vecEmails->push_back(email);
-				
-				prof->AddAttValPair(pair); // For the current PersonProfile, add the current AttValPair
-				std::getline(myfile, line); // Go to next line
 			}
 		}
 	}

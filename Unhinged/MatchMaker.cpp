@@ -2,6 +2,7 @@
 #include "PersonProfile.h"
 #include "utility.h"
 #include <set>
+#include <map>
 #include <algorithm>
 
 MatchMaker::MatchMaker(const MemberDatabase& mdb, const AttributeTranslator& at)
