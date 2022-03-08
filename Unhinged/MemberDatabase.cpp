@@ -7,7 +7,7 @@
 MemberDatabase::~MemberDatabase()
 {
 	for (int i = 0; i < m_emails.size(); i++)
-		delete (*m_profileTree.search(m_emails[i])); // Search for PersonProfile pointer and then delete its dynamically allocted memory
+		delete (*m_profileTree.search(m_emails[i])); // Search for PersonProfile pointer and then delete its dynamically allocated memory
 }
 
 bool MemberDatabase::LoadDatabase(std::string filename)

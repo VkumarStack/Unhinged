@@ -81,6 +81,8 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 	// Case #1: Both strings are equivalent - Mark the current node as being the end of a string and insert value
 	if (i == node->str.size() && i == key.size())
 	{
+		if (node->end) // Check if ValueType is already at the Node - if so, free its prior value
+			delete node->value;
 		node->end = true;
 		node->value = new ValueType(value);
 		return;
