@@ -120,6 +120,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 
 		// Create new node with shared prefix inserted between parent and node  
 		Node* ins = new Node();
+		ins->end = false;
 		ins->str = key.substr(0, i);
 		ins->children[node->str.at(0)] = node; 
 		parent->children[ins->str.at(0)] = ins;
