@@ -95,65 +95,70 @@ int main()
 /*
 int main()
 {
-    RadixTree<int> test = RadixTree<int>();
-    test.insert("rubicundus", 1);
-    test.insert("rubicon", 2);
-    test.insert("ruber", 3);
-    test.insert("rubens", 4);
-    test.insert("romulus", 5);
-    test.insert("romanus", 6);
-    test.insert("roman", 8);
-    test.insert("romane", 7);
-    int* v;
-    v = test.search("rubicundus");
-    assert(v != nullptr && *v == 1);
-    v = test.search("rubicon");
-    assert(v != nullptr && *v == 2);
-    v = test.search("ruber");
-    assert(v != nullptr && *v == 3);
-    v = test.search("rubens");
-    assert(v != nullptr && *v == 4);
-    v = test.search("romulus");
-    assert(v != nullptr && *v == 5);
-    v = test.search("romanus");
-    assert(v != nullptr && *v == 6);
-    v = test.search("romane");
-    assert(v != nullptr && *v == 7);
-    v = test.search("roman");
-    assert(v != nullptr && *v == 8);
-    
-    test.insert("roman", 9); // Insertion should override values
-    v = test.search("roman");
-    assert(v != nullptr && *v == 9);
+    cout << endl;
+    if (true)
+    {
+        RadixTree<int> test = RadixTree<int>();
+        test.insert("rubicundus", 1);
+        test.insert("rubicon", 2);
+        test.insert("ruber", 3);
+        test.insert("rubens", 4);
+        test.insert("romulus", 5);
+        test.insert("romanus", 6);
+        test.insert("roman", 8);
+        test.insert("romane", 7);
+        int* v;
+        v = test.search("rubicundus");
+        assert(v != nullptr && *v == 1);
+        v = test.search("rubicon");
+        assert(v != nullptr && *v == 2);
+        v = test.search("ruber");
+        assert(v != nullptr && *v == 3);
+        v = test.search("rubens");
+        assert(v != nullptr && *v == 4);
+        v = test.search("romulus");
+        assert(v != nullptr && *v == 5);
+        v = test.search("romanus");
+        assert(v != nullptr && *v == 6);
+        v = test.search("romane");
+        assert(v != nullptr && *v == 7);
+        v = test.search("roman");
+        assert(v != nullptr && *v == 8);
 
-    // Backwards
-    RadixTree<int> test2 = RadixTree<int>();
-    test2.insert("romane", 7);
-    test2.insert("roman", 8);
-    test2.insert("romanus", 6);
-    test2.insert("romulus", 5);
-    test2.insert("rubens", 4);
-    test2.insert("ruber", 3);
-    test2.insert("rubicon", 2);
-    test2.insert("rubicundus", 1);
-    v = test2.search("rubicundus");
-    assert(v != nullptr && *v == 1);
-    v = test2.search("rubicon");
-    assert(v != nullptr && *v == 2);
-    v = test2.search("ruber");
-    assert(v != nullptr && *v == 3);
-    v = test2.search("rubens");
-    assert(v != nullptr && *v == 4);
-    v = test2.search("romulus");
-    assert(v != nullptr && *v == 5);
-    v = test2.search("romanus");
-    assert(v != nullptr && *v == 6);
-    v = test2.search("romane");
-    assert(v != nullptr && *v == 7);
-    v = test2.search("roman");
-    assert(v != nullptr && *v == 8);
+        test.insert("roman", 9); // Insertion should override values
+        v = test.search("roman");
+        assert(v != nullptr && *v == 9);
 
-}*/
+        // Backwards
+        RadixTree<int> test2 = RadixTree<int>();
+        test2.insert("romane", 7);
+        test2.insert("roman", 8);
+        test2.insert("romanus", 6);
+        test2.insert("romulus", 5);
+        test2.insert("rubens", 4);
+        test2.insert("ruber", 3);
+        test2.insert("rubicon", 2);
+        test2.insert("rubicundus", 1);
+        v = test2.search("rubicundus");
+        assert(v != nullptr && *v == 1);
+        v = test2.search("rubicon");
+        assert(v != nullptr && *v == 2);
+        v = test2.search("ruber");
+        assert(v != nullptr && *v == 3);
+        v = test2.search("rubens");
+        assert(v != nullptr && *v == 4);
+        v = test2.search("romulus");
+        assert(v != nullptr && *v == 5);
+        v = test2.search("romanus");
+        assert(v != nullptr && *v == 6);
+        v = test2.search("romane");
+        assert(v != nullptr && *v == 7);
+        v = test2.search("roman");
+        assert(v != nullptr && *v == 8);
+    }
+    cout << endl;
+}
+*/
 /*
 #include "PersonProfile.h"
 #include "AttributeTranslator.h"
@@ -176,11 +181,13 @@ int main() {
     if (true)
     {
         MemberDatabase mdb;
+
         if (!mdb.LoadDatabase(MEMBERS_FILE))
         {
             std::cout << "Error loading " << MEMBERS_FILE << std::endl;
             return 1;
         }
+
         AttributeTranslator at;
         if (!at.Load(TRANSLATOR_FILE))
         {
