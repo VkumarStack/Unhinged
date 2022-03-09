@@ -29,6 +29,7 @@ template <typename ValueType>
 RadixTree<ValueType>::RadixTree()
 {
 	Node* rt = new Node();
+	rt->value = nullptr;
 	rt->str = ""; // The very first node of the RadixTree is to be the empty string
 	rt->end = false;
 
@@ -120,6 +121,7 @@ void RadixTree<ValueType>::insert(Node* node, Node* parent, std::string key, con
 
 		// Create new node with shared prefix inserted between parent and node  
 		Node* ins = new Node();
+		ins->value = nullptr;
 		ins->end = false;
 		ins->str = key.substr(0, i);
 		ins->children[node->str.at(0)] = node; 
