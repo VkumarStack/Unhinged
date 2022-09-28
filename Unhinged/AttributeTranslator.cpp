@@ -10,7 +10,7 @@ bool AttributeTranslator::Load(std::string filename)
 	if (!myfile)
 		return false;
 	
-	std::string line; 
+	std::string line;
 	while (std::getline(myfile, line)) // Parse through text file 
 	{
 		if (line != "") // Do nothing if line is empty 
